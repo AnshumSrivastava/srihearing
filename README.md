@@ -1,42 +1,19 @@
-# sv
+# SRI Speech & Hearing Clinic Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A premium, modern, and trilingual website for **SRI Speech & Hearing Clinic** located in Ludhiana, Punjab.
 
-## Creating a project
+Built with SvelteKit and optimized for static deployment on GitHub Pages.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```sh
-# create a new project
-npx sv create my-app
-```
+- **Trilingual Support:** Switch seamlessly between English, Punjabi (ਪੰਜਾਬੀ), and Hindi (हिंदी).
+- **Service Listings:** Detailed descriptions for Hearing Aids, Speech Therapy, Voice Therapy, and Audiological Tests.
+- **Modern UI:** Warm, clean, and futuristic purple aesthetic with responsive components, accessible tap targets, and smooth interactive elements.
+- **Patient Bookings:** Sleek in-page consultation booking form.
+- **Clinic Location & Action Buttons:** Google Maps location popup alongside WhatsApp integration.
 
-To recreate this project with the same configuration:
+## Tech Stack
 
-```sh
-# recreate this project
-npx sv@0.15.3 create --template minimal --types ts --add sveltekit-adapter="adapter:static" --no-install ./
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- **Framework:** SvelteKit (Svelte 5)
+- **Styling:** Custom Vanilla CSS
+- **Deployment:** GitHub Pages (via GitHub Actions)
