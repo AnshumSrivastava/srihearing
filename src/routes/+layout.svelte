@@ -24,9 +24,9 @@
   setContext('lang', { get lang() { return lang; } });
 
   const t = {
-    en: { nav: ['Home', 'Services', 'About', 'Blog', 'Contact'], links: ['/', '/services', '/#about', '/blog', '/#contact'], call: 'Call Now' },
-    pa: { nav: ['ਘਰ', 'ਸੇਵਾਵਾਂ', 'ਸਾਡੇ ਬਾਰੇ', 'ਬਲੌਗ', 'ਸੰਪਰਕ'], links: ['/', '/services', '/#about', '/blog', '/#contact'], call: 'ਕਾਲ ਕਰੋ' },
-    hi: { nav: ['होम', 'सेवाएं', 'हमारे बारे में', 'ब्लॉग', 'संपर्क'], links: ['/', '/services', '/#about', '/blog', '/#contact'], call: 'कॉल करें' },
+    en: { nav: ['Home', 'Services', 'About', 'Camps', 'Blog', 'Contact'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'Call Now' },
+    pa: { nav: ['ਘਰ', 'ਸੇਵਾਵਾਂ', 'ਸਾਡੇ ਬਾਰੇ', 'ਮੈਡੀਕਲ ਕੈਂਪ', 'ਬਲੌਗ', 'ਸੰਪਰਕ'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'ਕਾਲ ਕਰੋ' },
+    hi: { nav: ['होम', 'सेवाएं', 'हमारे बारे में', 'मेडिकल कैंप', 'ब्लॉग', 'संपर्क'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'कॉल करें' },
   };
   const langNames: Record<string, string> = { en: 'English', pa: 'ਪੰਜਾਬੀ', hi: 'हिंदी' };
   const wa = '917986029544';
