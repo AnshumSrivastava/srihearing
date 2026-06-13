@@ -3,15 +3,29 @@
   let { children }: { children: Snippet } = $props();
   import '../app.css';
   import { onMount, setContext } from 'svelte';
+  import { page } from '$app/stores';
+  import { localizeLink, getLangUrl } from '$lib';
 
   let mobileOpen = $state(false);
   let scrolled = $state(false);
-  let lang = $state<'en' | 'pa' | 'hi'>('en');
   let langOpen = $state(false);
   let mapOpen = $state(false);
   let langRef: HTMLElement;
 
+  // Reactively derive the language from the URL route parameter
+  let lang = $derived(($page.params.lang as 'pa' | 'hi') || 'en');
+
   onMount(() => {
+    const savedLang = localStorage.getItem('lang');
+    const path = $page.url.pathname;
+    const currentLangParam = $page.params.lang;
+    
+    // Auto-redirect to preferred language only on initial load if user lands on generic English path
+    if (savedLang && savedLang !== 'en' && !currentLangParam && (path === '/' || path === '/services' || path === '/blog')) {
+      window.location.href = `/${savedLang}${path === '/' ? '' : path}`;
+      return;
+    }
+
     const onScroll = () => { scrolled = window.scrollY > 10; };
     const onClick = (e: MouseEvent) => { if (langRef && !langRef.contains(e.target as Node)) langOpen = false; };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -20,7 +34,21 @@
     return () => { window.removeEventListener('scroll', onScroll); document.removeEventListener('click', onClick); };
   });
 
-  function pick(l: 'en' | 'pa' | 'hi') { lang = l; langOpen = false; mobileOpen = false; }
+  // Reactively track page changes to sync localStorage
+  $effect(() => {
+    const currentLangParam = $page.params.lang;
+    const path = $page.url.pathname;
+    
+    if (typeof window !== 'undefined') {
+      if (currentLangParam) {
+        localStorage.setItem('lang', currentLangParam);
+      } else if (path === '/' || path === '/services' || path === '/blog') {
+        localStorage.setItem('lang', 'en');
+      }
+    }
+  });
+
+  // Share reactive language getter via context
   setContext('lang', { get lang() { return lang; } });
 
   const t = {
@@ -34,28 +62,53 @@
 
 </script>
 
+<svelte:head>
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.srihearing.in{getLangUrl($page.url.pathname, lang)}" />
+
+  <!-- Alternate Language Hreflang Tags (SEO & AIO crawl standard) -->
+  <link rel="alternate" hreflang="en" href="https://www.srihearing.in{getLangUrl($page.url.pathname, 'en')}" />
+  <link rel="alternate" hreflang="pa" href="https://www.srihearing.in{getLangUrl($page.url.pathname, 'pa')}" />
+  <link rel="alternate" hreflang="hi" href="https://www.srihearing.in{getLangUrl($page.url.pathname, 'hi')}" />
+  <link rel="alternate" hreflang="x-default" href="https://www.srihearing.in{getLangUrl($page.url.pathname, 'en')}" />
+
+  <!-- Social Open Graph Metadata -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SRI Speech & Hearing Clinic" />
+  <meta property="og:url" content="https://www.srihearing.in{getLangUrl($page.url.pathname, lang)}" />
+  <meta property="og:image" content="https://www.srihearing.in/logo.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:image" content="https://www.srihearing.in/logo.png" />
+</svelte:head>
+
 <!-- Navbar -->
 <nav class="nav" class:scrolled>
   <div class="wrap nav-inner">
-    <a href="/" class="logo">
-      <img src="/logo.png" alt="SRI" class="logo-img" />
+    <a href={localizeLink('/', lang)} class="logo" aria-label="SRI Home">
+      <img src="/logo.png" alt="SRI logo" class="logo-img" />
       <div><span class="logo-name">SRI Speech & Hearing</span><span class="logo-sub">Ludhiana, Punjab</span></div>
     </a>
 
     <ul class="nav-links">
-      {#each t[lang].nav as label, i}<li><a href={t[lang].links[i]}>{label}</a></li>{/each}
+      {#each t[lang].nav as label, i}
+        <li><a href={localizeLink(t[lang].links[i], lang)}>{label}</a></li>
+      {/each}
     </ul>
 
     <div class="nav-right">
       <div class="lang-w" bind:this={langRef}>
-        <button class="lang-btn" onclick={() => langOpen = !langOpen}>
+        <button class="lang-btn" onclick={() => langOpen = !langOpen} aria-label="Switch Language" aria-expanded={langOpen}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
           {langNames[lang]}
           <svg class="lang-chev" class:open={langOpen} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         {#if langOpen}
           <div class="lang-menu">
-            {#each (['en','pa','hi'] as const) as l}<button class:active={lang===l} onclick={() => pick(l)}>{langNames[l]}</button>{/each}
+            {#each (['en','pa','hi'] as const) as l}
+              <a class="lang-menu-item" class:active={lang===l} href={getLangUrl($page.url.pathname, l)} onclick={() => { langOpen = false; localStorage.setItem('lang', l); }}>
+                {langNames[l]}
+              </a>
+            {/each}
           </div>
         {/if}
       </div>
@@ -65,7 +118,7 @@
         {t[lang].call}
       </a>
 
-      <button class="hamburger" onclick={() => mobileOpen = true} aria-label="Menu"><span></span><span></span><span></span></button>
+      <button class="hamburger" onclick={() => mobileOpen = true} aria-label="Menu" aria-expanded={mobileOpen}><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
@@ -76,10 +129,14 @@
   <button class="mob-close" onclick={() => mobileOpen = false} aria-label="Close">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
-  {#each t[lang].nav as label, i}<a href={t[lang].links[i]} onclick={() => mobileOpen = false}>{label}</a>{/each}
+  {#each t[lang].nav as label, i}
+    <a href={localizeLink(t[lang].links[i], lang)} onclick={() => mobileOpen = false}>{label}</a>
+  {/each}
   <div style="display:flex; gap:0.5rem; margin-top:1rem;">
     {#each (['en','pa','hi'] as const) as l}
-      <button class="btn" class:btn-green={lang===l} class:btn-outline={lang!==l} style="padding:0.5rem 1rem; min-height:40px; font-size:0.875rem;" onclick={() => pick(l)}>{langNames[l]}</button>
+      <a class="btn" class:btn-green={lang===l} class:btn-outline={lang!==l} style="padding:0.5rem 1rem; min-height:40px; font-size:0.875rem; display: inline-flex; align-items: center; justify-content: center;" href={getLangUrl($page.url.pathname, l)} onclick={() => { mobileOpen = false; localStorage.setItem('lang', l); }}>
+        {langNames[l]}
+      </a>
     {/each}
   </div>
   <a href="tel:+917986029544" class="btn btn-green btn-lg" style="margin-top:0.5rem;">
@@ -97,23 +154,23 @@
     <div class="ft-grid">
       <div class="ft-brand">
         <div class="ft-logo">
-          <img src="/logo.png" alt="SRI" class="ft-logo-img" />
+          <img src="/logo.png" alt="SRI logo" class="ft-logo-img" />
           <div><span class="ft-logo-name">SRI Speech & Hearing</span><br><span class="ft-logo-sub">Ludhiana, Punjab</span></div>
         </div>
         <p>Trusted speech therapy and hearing aid services in Ludhiana. Serving patients of all ages with compassion and clinical expertise.</p>
       </div>
       <div class="ft-col"><h4>Services</h4><ul>
-        <li><a href="/services#hearing-aids">Hearing Aids</a></li>
-        <li><a href="/services#speech-therapy">Speech Therapy</a></li>
-        <li><a href="/services#audiological-eval">Audiometry</a></li>
-        <li><a href="/services#voice">Voice Therapy</a></li>
-        <li><a href="/services#tinnitus">Tinnitus Care</a></li>
+        <li><a href={localizeLink('/services#hearing-aids', lang)}>Hearing Aids</a></li>
+        <li><a href={localizeLink('/services#speech-therapy', lang)}>Speech Therapy</a></li>
+        <li><a href={localizeLink('/services#audiological-eval', lang)}>Audiometry</a></li>
+        <li><a href={localizeLink('/services#voice', lang)}>Voice Therapy</a></li>
+        <li><a href={localizeLink('/services#tinnitus', lang)}>Tinnitus Care</a></li>
       </ul></div>
       <div class="ft-col"><h4>Quick Links</h4><ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/#about">About Us</a></li>
-        <li><a href="/services">All Services</a></li>
-        <li><a href="/blog">Blog</a></li>
+        <li><a href={localizeLink('/', lang)}>Home</a></li>
+        <li><a href={localizeLink('/#about', lang)}>About Us</a></li>
+        <li><a href={localizeLink('/services', lang)}>All Services</a></li>
+        <li><a href={localizeLink('/blog', lang)}>Blog</a></li>
       </ul></div>
       <div class="ft-col"><h4>Contact</h4><ul>
         <li><a href="tel:+917986029544">+91 7986 029 544</a></li>
@@ -122,15 +179,25 @@
       </ul></div>
     </div>
     <div class="ft-btm">
-      <span>&copy; {new Date().getFullYear()} SRI Speech & Hearing Aid Centre. All rights reserved.</span>
-      <span>Near ESI Hospital, Model Gram, Ludhiana, Punjab 141001</span>
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
+        <span>&copy; {new Date().getFullYear()} SRI Speech & Hearing Aid Centre. All rights reserved.</span>
+        <span>Near ESI Hospital, Model Gram, Ludhiana, Punjab 141001</span>
+      </div>
+      <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem;">
+        <span style="color: rgba(255,255,255,0.3); font-size: 0.8125rem;">Language / ਭਾਸ਼ਾ / भाषा:</span>
+        <a href={getLangUrl($page.url.pathname, 'en')} style="color: rgba(255,255,255,0.5); font-size: 0.8125rem; font-weight: 600; text-decoration: none;">English</a>
+        <span style="color: rgba(255,255,255,0.2); font-size: 0.8125rem;">&bull;</span>
+        <a href={getLangUrl($page.url.pathname, 'pa')} style="color: rgba(255,255,255,0.5); font-size: 0.8125rem; font-weight: 600; text-decoration: none;">ਪੰਜਾਬੀ</a>
+        <span style="color: rgba(255,255,255,0.2); font-size: 0.8125rem;">&bull;</span>
+        <a href={getLangUrl($page.url.pathname, 'hi')} style="color: rgba(255,255,255,0.5); font-size: 0.8125rem; font-weight: 600; text-decoration: none;">हिंदी</a>
+      </div>
     </div>
   </div>
 </footer>
 
 <!-- FAB buttons -->
 <div class="fab-stack">
-  <button class="fab fab-map" onclick={() => mapOpen = !mapOpen} aria-label="Find us on map">
+  <button class="fab fab-map" onclick={() => mapOpen = !mapOpen} aria-label="Find us on map" aria-expanded={mapOpen}>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
   </button>
   <a href="https://wa.me/{wa}?text={waMsg}" class="fab fab-wa" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
@@ -140,10 +207,10 @@
 
 <!-- Map popup -->
 {#if mapOpen}
-<div class="map-overlay" onclick={() => mapOpen = false}>
-  <div class="map-popup" onclick={(e) => e.stopPropagation()}>
+<div class="map-overlay" onclick={() => mapOpen = false} onkeydown={(e) => { if (e.key === 'Escape') mapOpen = false; }} role="button" tabindex="0" aria-label="Close Map Overlay">
+  <div class="map-popup" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-labelledby="map-title" tabindex="-1">
     <div class="map-popup-header">
-      <h3>Find Us</h3>
+      <h3 id="map-title">Find Us</h3>
       <button class="map-popup-close" onclick={() => mapOpen = false} aria-label="Close map">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>

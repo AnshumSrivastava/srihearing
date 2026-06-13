@@ -4,8 +4,8 @@
   let lang = $derived(ctx?.lang ?? 'en');
 
   const h = {
-    en: { badge: 'Trusted Clinic in Ludhiana', h1: 'Rediscover the', h2: 'Joy of Sound', desc: 'Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy for children and adults — all under one roof.', cta1: 'Book Appointment', cta2: 'Our Services', stats: [['500+', 'Happy Patients'], ['7+', 'Years Experience'], ['100%', 'Personalised Care']] },
-    pa: { badge: 'ਲੁਧਿਆਣਾ ਦਾ ਭਰੋਸੇਮੰਦ ਕਲੀਨਿਕ', h1: 'ਆਵਾਜ਼ ਦੀ', h2: 'ਖੁਸ਼ੀ ਮੁੜ ਪਾਓ', desc: 'ਲੁਧਿਆਣਾ ਵਿੱਚ ਮਾਹਿਰ ਆਡੀਓਲੌਜੀਕਲ ਮੁਲਾਂਕਣ, ਆਧੁਨਿਕ ਹੀਅਰਿੰਗ ਏਡ ਅਤੇ ਬੋਲਣ ਦੀ ਥੈਰੇਪੀ।', cta1: 'ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ', cta2: 'ਸੇਵਾਵਾਂ', stats: [['500+', 'ਖੁਸ਼ ਮਰੀਜ਼'], ['7+', 'ਸਾਲ ਤਜਰਬਾ'], ['100%', 'ਨਿੱਜੀ ਦੇਖਭਾਲ']] },
+    en: { badge: 'Trusted Clinic in Ludhiana', h1: 'Rediscover the', h2: 'Joy of Sound', desc: 'Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy for children and adults — all under one roof.', cta1: 'Book Appointment', cta2: 'Our Services', stats: [['2000+', 'Happy Patients'], ['25+', 'Years Experience'], ['100%', 'Personalised Care']] },
+    pa: { badge: 'ਲੁਧਿਆਣਾ ਦਾ ਭਰੋਸੇਮੰਦ ਕਲੀਨਿਕ', h1: 'ਆਵਾਜ਼ ਦੀ', h2: 'ਖੁਸ਼ੀ ਮੁੜ ਪਾਓ', desc: 'ਲੁਧਿਆਣਾ ਵਿੱਚ ਮਾਹਿਰ ਆਡੀਓਲੌਜੀਕਲ ਮੁਲਾਂਕਣ, ਆਧੁਨਿਕ ਹੀਅਰਿੰਗ ਏਡ ਅਤੇ ਬੋਲਣ ਦੀ ਥੈਰੇਪੀ।', cta1: 'ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ', cta2: 'ਸੇਵਾਵਾਂ', stats: [['2000+', 'ਖੁਸ਼ ਮਰੀਜ਼'], ['25+', 'ਸਾਲਾਂ ਦਾ ਤਜਰਬਾ'], ['100%', 'ਨਿੱਜੀ ਦੇਖਭਾਲ']] },
     hi: { badge: 'लुधियाना का विश्वसनीय क्लिनिक', h1: 'ध्वनि का', h2: 'आनंद पुनः खोजें', desc: 'ऑडियोलॉजिकल मूल्यांकन, रिचार्जेबल हियरिंग एड और स्पीच थेरेपी — सब एक छत के नीचे।', cta1: 'अपॉइंटमेंट बुक करें', cta2: 'सेवाएं', stats: [['500+', 'खुश मरीज़'], ['7+', 'वर्ष अनुभव'], ['100%', 'व्यक्तिगत देखभाल']] },
   };
 
@@ -100,11 +100,7 @@
       },
       link: 'https://www.signia.in/',
       color: '#D00000',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <circle cx="15" cy="18" r="4" fill="#D00000" />
-        <circle cx="27" cy="18" r="6" fill="#D00000" opacity="0.7" />
-        <text x="42" y="25" font-family="Outfit, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.04em">signia</text>
-      </svg>`
+      image: '/images/brands/signia.svg'
     },
     {
       name: 'Oticon',
@@ -116,10 +112,7 @@
       },
       link: 'https://www.oticon.in/',
       color: '#002C77',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="26" font-family="Outfit, sans-serif" font-weight="800" font-size="25" letter-spacing="-0.05em">oticon</text>
-        <circle cx="108" cy="12" r="3.5" fill="#002C77" />
-      </svg>`
+      image: '/images/brands/oticon.png'
     },
     {
       name: 'Interton',
@@ -131,10 +124,7 @@
       },
       link: 'https://www.interton.com/',
       color: '#4CAF50',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="25" font-family="Outfit, sans-serif" font-weight="700" font-size="23" letter-spacing="-0.02em">interton</text>
-        <path d="M110 18h12M116 12v12" stroke="#4CAF50" stroke-width="3" stroke-linecap="round" />
-      </svg>`
+      image: '/images/brands/interton.png'
     },
     {
       name: 'ReSound',
@@ -146,10 +136,7 @@
       },
       link: 'https://www.resound.com/en-in',
       color: '#D12026',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="25" font-family="Outfit, sans-serif" font-weight="700" font-size="23" letter-spacing="-0.03em">ReSound</text>
-        <path d="M115 14c2 0 3.5 1.5 3.5 3.5s-1.5 3.5-3.5 3.5h-5v-7h5zm-5-4h5c4.1 0 7.5 3.4 7.5 7.5S119.1 25 115 25h-5V10z" fill="#D12026" />
-      </svg>`
+      image: '/images/brands/resound.png'
     },
     {
       name: 'Hansaton',
@@ -161,10 +148,7 @@
       },
       link: 'https://www.hansaton.com/',
       color: '#E26D14',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="25" font-family="Outfit, sans-serif" font-weight="800" font-size="20" letter-spacing="0.05em">HANSATON</text>
-        <circle cx="140" cy="18" r="5" fill="#E26D14" />
-      </svg>`
+      image: '/images/brands/hansaton.png'
     },
     {
       name: 'Rexton',
@@ -176,10 +160,7 @@
       },
       link: 'https://www.rexton.com/',
       color: '#007BFF',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="25" font-family="Outfit, sans-serif" font-weight="800" font-size="23" letter-spacing="-0.01em">REXTON</text>
-        <path d="M115 12l6 12h-12z" fill="#007BFF" />
-      </svg>`
+      image: '/images/brands/rexton.png'
     },
     {
       name: 'A&M',
@@ -191,10 +172,7 @@
       },
       link: 'https://www.am-hearing.com/',
       color: '#9C27B0',
-      svg: `<svg viewBox="0 0 160 36" fill="currentColor">
-        <text x="10" y="25" font-family="Outfit, sans-serif" font-weight="900" font-size="26" letter-spacing="-0.03em">A&M</text>
-        <text x="75" y="24" font-family="Outfit, sans-serif" font-weight="500" font-size="12" letter-spacing="0.08em" fill="var(--muted)">HEARING</text>
-      </svg>`
+      image: '/images/brands/am.webp'
     }
   ];
 
@@ -225,7 +203,7 @@
       statCampsLbl: 'Camps Held',
       statPatients: '2,000+',
       statPatientsLbl: 'Patients Screened',
-      ctaRegister: 'Register for Upcoming Camp',
+      ctaRegister: 'Inquire on WhatsApp',
       ctaHost: 'Host a Camp in Your Area',
       features: [
         {
@@ -254,7 +232,7 @@
       statCampsLbl: 'ਲਗਾਏ ਗਏ ਕੈਂਪ',
       statPatients: '2,000+',
       statPatientsLbl: 'ਮਰੀਜ਼ਾਂ ਦੀ ਜਾਂਚ',
-      ctaRegister: 'ਅਗਲੇ ਕੈਂਪ ਲਈ ਰਜਿਸਟਰ ਕਰੋ',
+      ctaRegister: "ਵਟਸਐਪ 'ਤੇ ਪੁੱਛਗਿੱਛ ਕਰੋ",
       ctaHost: 'ਆਪਣੇ ਇਲਾਕੇ ਵਿੱਚ ਕੈਂਪ ਲਗਵਾਓ',
       features: [
         {
@@ -283,7 +261,7 @@
       statCampsLbl: 'आयोजित कैंप',
       statPatients: '2,000+',
       statPatientsLbl: 'मरीजों की जांच',
-      ctaRegister: 'आगामी कैंप के लिए पंजीकरण करें',
+      ctaRegister: 'व्हाट्सएप पर पूछताछ करें',
       ctaHost: 'अपने क्षेत्र में कैंप आयोजित करवाएं',
       features: [
         {
@@ -370,7 +348,7 @@
       {#each brands as b, i}
         <div class="card brand-card fade-in" style="transition-delay:{i*40}ms; --brand-hover-color:{b.color};">
           <div class="brand-logo-container">
-            {@html b.svg}
+            <img src={b.image} alt="{b.name} logo" class="brand-logo-img" loading="lazy" />
           </div>
           <span class="brand-tagline">{b.tagline}</span>
           <p class="brand-desc">{b.desc[lang]}</p>
@@ -394,7 +372,7 @@
       <div class="fade-in">
         <p class="t-label">About Us</p>
         <h2 class="t-h2" style="margin:0.75rem 0 1rem;">Ludhiana's Most Trusted Hearing & Speech Clinic</h2>
-        <p class="t-body" style="margin-bottom:2rem;">Located near ESI Hospital in Model Gram, SRI Speech & Hearing Aid Centre has served the Ludhiana community with expert audiological care. We combine clinical expertise with genuine warmth.</p>
+        <p class="t-body" style="margin-bottom:2rem;">Located near ESI Hospital in Model Gram, SRI Speech & Hearing Aid Centre has served the Ludhiana community with expert audiological care for over 25 years. We combine clinical expertise with genuine warmth.</p>
         <div style="display:flex; flex-direction:column; gap:1.25rem; margin-bottom:2rem;">
           <div class="chk"><div class="chk-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><strong>RCI-Certified Specialists</strong><br><span class="t-small">Registered with Rehabilitation Council of India</span></div></div>
           <div class="chk"><div class="chk-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div><strong>All Brands, All Budgets</strong><br><span class="t-small">Rechargeable, CIC, BTE — trial periods available</span></div></div>
@@ -490,7 +468,7 @@
         </div>
 
         <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-          <a href="#contact" class="btn btn-green">{campText[lang].ctaRegister}</a>
+          <a href="https://wa.me/917986029544?text=Hello%2C%20I%20want%20to%20inquire%20about%20upcoming%20medical%20camps." target="_blank" rel="noopener noreferrer" class="btn btn-green">{campText[lang].ctaRegister}</a>
           <a href="https://wa.me/917986029544?text=Hello%2C%20I%20want%20to%20know%20more%20about%20your%20medical%20camps%20or%20host%20one." target="_blank" rel="noopener noreferrer" class="btn btn-outline">{campText[lang].ctaHost}</a>
         </div>
       </div>

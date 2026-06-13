@@ -148,13 +148,15 @@ h1, h2, h3, h4 { font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; c
   animation: menuIn 150ms var(--ease);
 }
 @keyframes menuIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-.lang-menu button {
+.lang-menu button, .lang-menu-item {
   display: block; width: 100%; text-align: left;
   padding: 0.5rem 0.75rem; border-radius: var(--r-sm);
   font-size: 0.875rem; font-weight: 500; color: var(--body); transition: all 100ms;
+  text-decoration: none;
+  box-sizing: border-box;
 }
-.lang-menu button:hover { background: var(--cream); color: var(--green); }
-.lang-menu button.active { background: rgba(27,67,50,0.08); color: var(--green); font-weight: 600; }
+.lang-menu button:hover, .lang-menu-item:hover { background: var(--cream); color: var(--green); }
+.lang-menu button.active, .lang-menu-item.active { background: rgba(27,67,50,0.08); color: var(--green); font-weight: 600; }
 
 /* Hamburger */
 .hamburger { display: none; padding: 8px; }
@@ -515,7 +517,7 @@ h1, h2, h3, h4 { font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; c
   background: var(--white);
 }
 .brand-logo-container {
-  height: 36px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -530,6 +532,16 @@ h1, h2, h3, h4 { font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; c
   height: 100%;
   max-width: 160px;
   fill: currentColor;
+}
+.brand-logo-img {
+  max-height: 100%;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(60%);
+  transition: filter 300ms var(--ease), opacity 300ms var(--ease);
+}
+.brand-card:hover .brand-logo-img {
+  filter: grayscale(0%) opacity(100%);
 }
 .brand-tagline {
   font-size: 0.75rem;
