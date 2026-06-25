@@ -1,7 +1,29 @@
 <script lang="ts">
   import { onMount, getContext } from 'svelte';
+  import { localizeLink } from '$lib';
   const ctx = getContext<{ lang: 'en' | 'pa' | 'hi' }>('lang');
   let lang = $derived(ctx?.lang ?? 'en');
+
+  const seo = {
+    en: {
+      title: "Best Hearing Aid Centre Ludhiana | SRI Speech & Hearing Aid Centre Punjab",
+      desc: "Looking for the best hearing aid clinic in Ludhiana, Punjab? SRI Speech & Hearing Aid Centre offers rechargeable & CIC hearing aids, professional audiological evaluations (PTA), and speech therapy. Visit us near ESI Hospital Ludhiana.",
+      ogTitle: "Best Hearing Aid Centre Ludhiana | SRI Speech & Hearing Clinic Punjab",
+      ogDesc: "Looking for the best hearing aid clinic in Ludhiana? SRI Speech & Hearing Aid Centre offers advanced rechargeable & digital hearing aids, PTA testing, and speech therapy in Punjab."
+    },
+    pa: {
+      title: "ਲੁਧਿਆਣਾ ਵਿੱਚ ਸਭ ਤੋਂ ਵਧੀਆ ਹੀਅਰਿੰਗ ਏਡ ਸੈਂਟਰ | SRI Speech & Hearing Centre Punjab",
+      desc: "ਕੀ ਤੁਸੀਂ ਲੁਧਿਆਣਾ, ਪੰਜਾਬ ਵਿੱਚ ਸਭ ਤੋਂ ਵਧੀਆ ਹੀਅਰਿੰਗ ਏਡ ਕਲੀਨਿਕ ਲੱਭ ਰਹੇ ਹੋ? SRI Speech & Hearing Aid Centre ਰੀਚਾਰਜਯੋਗ ਅਤੇ ਡਿਜੀਟਲ ਹੀਅਰਿੰਗ ਏਡ, ਸੁਣਨ ਟੈਸਟ ਅਤੇ ਸਪੀਚ ਥੈਰੇਪੀ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦਾ ਹੈ।",
+      ogTitle: "ਲੁਧਿਆਣਾ ਵਿੱਚ ਸਭ ਤੋਂ ਵਧੀਆ ਹੀਅਰਿੰਗ ਏਡ ਸੈਂਟਰ | SRI Speech & Hearing",
+      ogDesc: "ਲੁਧਿਆਣਾ, ਪੰਜਾਬ ਵਿੱਚ ਮਾਹਿਰ ਆਡੀਓਲੌਜੀਕਲ ਮੁਲਾਂਕਣ, ਰੀਚਾਰਜਯੋਗ ਹੀਅਰਿੰਗ ਏਡ ਅਤੇ ਬੋਲਣ ਦੀ ਥੈਰੇਪੀ। ਅੱਜ ਹੀ ਮੁਲਾਕਾਤ ਬੁੱਕ ਕਰੋ।"
+    },
+    hi: {
+      title: "लुधियाना में सबसे अच्छा हियरिंग एड सेंटर | SRI Speech & Hearing Centre Punjab",
+      desc: "क्या आप लुधियाना, पंजाब में सबसे अच्छा हियरिंग एड क्लीनिक ढूंढ रहे हैं? SRI Speech & Hearing Aid Centre रिचार्जेबल और डिजिटल हियरिंग एड, ऑडियोमेट्री (सुनाई जांच) और स्पीच थेरेपी प्रदान करता है।",
+      ogTitle: "लुधियाना में सबसे अच्छा हियरिंग एड सेंटर | SRI Speech & Hearing Clinic",
+      ogDesc: "लुधियाना, पंजाब में विशेषज्ञ ऑडियोलॉजिकल मूल्यांकन, रिचार्जेबल हियरिंग एड और बच्चों की स्पीच थेरेपी। अपॉइंटमेंट बुक करें।"
+    }
+  };
 
   const h = {
     en: { badge: 'Trusted Clinic in Ludhiana', h1: 'Rediscover the', h2: 'Joy of Sound', desc: 'Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy for children and adults — all under one roof.', cta1: 'Book Appointment', cta2: 'Our Services', stats: [['2000+', 'Happy Patients'], ['25+', 'Years Experience'], ['100%', 'Personalised Care']] },
@@ -294,8 +316,29 @@
 </script>
 
 <svelte:head>
-  <title>SRI Speech & Hearing Aid Centre | Ludhiana, Punjab</title>
-  <meta name="description" content="Expert speech therapy and hearing aid services in Ludhiana, Punjab. Rechargeable & CIC hearing aids, audiological evaluation, children's speech therapy. Near ESI Hospital." />
+  <title>{seo[lang].title}</title>
+  <meta name="description" content={seo[lang].desc} />
+  <!-- Page-specific OG overrides -->
+  <meta property="og:title" content={seo[lang].ogTitle} />
+  <meta property="og:description" content={seo[lang].ogDesc} />
+  <meta name="twitter:title" content={seo[lang].title} />
+  <meta name="twitter:description" content={seo[lang].desc} />
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What services does SRI Speech & Hearing Aid Centre offer?", "acceptedAnswer": { "@type": "Answer", "text": "SRI Speech & Hearing Aid Centre in Ludhiana offers audiological evaluations (PTA, speech audiometry, tympanometry), rechargeable and CIC digital hearing aids from brands like Signia, Oticon and ReSound, speech therapy for children, voice therapy, and tinnitus management." } },
+      { "@type": "Question", "name": "Where is SRI Speech & Hearing Aid Centre located?", "acceptedAnswer": { "@type": "Answer", "text": "SRI Speech & Hearing Aid Centre is located near ESI Hospital, Model Gram, Ludhiana, Punjab 141001. We are open Monday to Saturday, 10:00 AM to 7:00 PM." } },
+      { "@type": "Question", "name": "How much does a hearing aid cost at SRI Hearing Clinic?", "acceptedAnswer": { "@type": "Answer", "text": "Hearing aid prices vary by type and brand. SRI Speech & Hearing Aid Centre offers hearing aids across all budgets — from affordable digital BTEs to premium rechargeable CIC models. Trial periods are available on all brands." } },
+      { "@type": "Question", "name": "Does SRI Hearing Clinic offer speech therapy for children?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. SRI Speech & Hearing Aid Centre provides play-based speech therapy for children with delayed speech, articulation disorders, and stuttering. Sessions are conducted by RCI-certified speech-language pathologists." } },
+      { "@type": "Question", "name": "Can I take a free hearing test online before visiting?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. SRI Speech & Hearing Aid Centre offers an unofficial pure-tone hearing screening test at srihearing.in/hearing-test. Using headphones or earphones, you can check which frequencies you can hear. This is a self-screening tool and does not replace a clinical audiological evaluation." } }
+    ]
+  })}<\/script>`}
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.srihearing.in/" }]
+  })}<\/script>`}
 </svelte:head>
 
 <section class="hero">
@@ -309,9 +352,15 @@
           <a href="tel:+917986029544" class="btn btn-green btn-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.8.36 1.58.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.23.34 2.01.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg> {h[lang].cta1}</a>
           <a href="/services" class="btn btn-outline btn-lg">{h[lang].cta2} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
+        <a href={localizeLink('/hearing-test', lang)} class="hero-test-pill anim-up anim-d3" id="hero-hearing-test-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          {lang === 'pa' ? 'ਮੁਫ਼ਤ ਸੁਣਨ ਜਾਂਚ ਕਰੋ — ਆਪਣੀ ਸੁਣਨ ਸ਼ਕਤੀ ਔਨਲਾਈਨ ਜਾਂਚੋ' : lang === 'hi' ? 'मुफ्त श्रवण जांच — अपनी सुनने की क्षमता ऑनलाइन जांचें' : 'Take the free online hearing test — check your hearing range'}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
         <div class="hero-stats anim-up anim-d4">
           {#each h[lang].stats as s}<div class="hero-stat"><strong>{s[0]}</strong><span>{s[1]}</span></div>{/each}
         </div>
+
       </div>
       <div class="anim-up anim-d2"><div class="hero-img"><img src="/images/hero_clinic.png" alt="SRI Speech & Hearing Clinic" /></div></div>
     </div>
@@ -396,6 +445,48 @@
         <h3 class="t-h3">{w.t}</h3>
         <p class="t-body" style="font-size:0.9375rem;">{w.d}</p>
       </div>{/each}
+    </div>
+  </div>
+</section>
+
+<!-- Hearing Test Teaser -->
+<section class="sec bg-cream" id="hearing-test-teaser">
+  <div class="wrap">
+    <div class="ht-teaser fade-in">
+      <div class="ht-teaser-left">
+        <p class="t-label">Self-Screening Tool</p>
+        <h2 class="t-h2" style="margin:0.75rem 0 1rem;">Check Your Hearing From Home</h2>
+        <p class="t-body" style="margin-bottom:1.5rem;">Our free online hearing screening uses pure tones played through your headphones to test which frequencies you can hear — separately for each ear. Get an instant report in under 5 minutes.</p>
+        <ul class="ht-teaser-features">
+          <li><div class="ht-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><span>Pure-tone test across 8 frequencies (250 Hz to 16 kHz)</span></li>
+          <li><div class="ht-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><span>Left ear and right ear tested independently</span></li>
+          <li><div class="ht-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><span>Instant report with hearing age estimate and personalised tips</span></li>
+          <li><div class="ht-feat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div><span>Download your report as a PDF</span></li>
+        </ul>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:2rem;">
+          <a href="/hearing-test" class="btn btn-green btn-lg">Start Hearing Test</a>
+          <a href="/#contact" class="btn btn-outline btn-lg">Book a Clinical Test</a>
+        </div>
+        <p class="t-small" style="margin-top:1rem; color:var(--muted);">Requires headphones or earphones. This is a self-screening tool — not a clinical audiological evaluation.</p>
+      </div>
+      <div class="ht-teaser-visual fade-in" style="transition-delay:100ms;">
+        <div class="ht-freq-display">
+          <div class="ht-freq-label">Frequency Range Tested</div>
+          <div class="ht-freq-bars">
+            {#each [250, 500, 1000, 2000, 4000, 8000, 12000, 16000] as freq, i}
+              <div class="ht-freq-bar-wrap">
+                <div class="ht-freq-bar-fill" style="height:{30 + i * 8}%; animation-delay:{i * 80}ms;"></div>
+                <div class="ht-freq-hz">{freq >= 1000 ? (freq/1000) + 'k' : freq}</div>
+              </div>
+            {/each}
+          </div>
+          <div class="ht-freq-axis">
+            <span>Low</span>
+            <span>Hz</span>
+            <span>High</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

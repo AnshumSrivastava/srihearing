@@ -4,16 +4,19 @@
   import '../app.css';
   import { onMount, setContext } from 'svelte';
   import { page } from '$app/stores';
+  import { browser } from '$app/environment';
   import { localizeLink, getLangUrl } from '$lib';
 
   let mobileOpen = $state(false);
   let scrolled = $state(false);
   let langOpen = $state(false);
   let mapOpen = $state(false);
-  let langRef: HTMLElement;
+  let langRef = $state<HTMLElement | null>(null);
 
   // Reactively derive the language from the URL route parameter
   let lang = $derived(($page.params.lang as 'pa' | 'hi') || 'en');
+  // Reactively derive if we are in standalone mode
+  let isStandalone = $derived(browser && $page.url.searchParams.has('standalone'));
 
   onMount(() => {
     const savedLang = localStorage.getItem('lang');
@@ -52,9 +55,9 @@
   setContext('lang', { get lang() { return lang; } });
 
   const t = {
-    en: { nav: ['Home', 'Services', 'About', 'Camps', 'Blog', 'Contact'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'Call Now' },
-    pa: { nav: ['ਘਰ', 'ਸੇਵਾਵਾਂ', 'ਸਾਡੇ ਬਾਰੇ', 'ਮੈਡੀਕਲ ਕੈਂਪ', 'ਬਲੌਗ', 'ਸੰਪਰਕ'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'ਕਾਲ ਕਰੋ' },
-    hi: { nav: ['होम', 'सेवाएं', 'हमारे बारे में', 'मेडिकल कैंप', 'ब्लॉग', 'संपर्क'], links: ['/', '/services', '/#about', '/#camps', '/blog', '/#contact'], call: 'कॉल करें' },
+    en: { nav: ['Home', 'Services', 'About', 'Camps', 'Hearing Test', 'Blog', 'Contact'], links: ['/', '/services', '/#about', '/#camps', '/hearing-test', '/blog', '/#contact'], call: 'Call Now' },
+    pa: { nav: ['ਘਰ', 'ਸੇਵਾਵਾਂ', 'ਸਾਡੇ ਬਾਰੇ', 'ਮੈਡੀਕਲ ਕੈਂਪ', 'ਸੁਣਨ ਟੈਸਟ', 'ਬਲੌਗ', 'ਸੰਪਰਕ'], links: ['/', '/services', '/#about', '/#camps', '/hearing-test', '/blog', '/#contact'], call: 'ਕਾਲ ਕਰੋ' },
+    hi: { nav: ['होम', 'सेवाएं', 'हमारे बारे में', 'मेडिकल कैंप', 'श्रवण परीक्षण', 'ब्लॉग', 'संपर्क'], links: ['/', '/services', '/#about', '/#camps', '/hearing-test', '/blog', '/#contact'], call: 'कॉल करें' },
   };
   const langNames: Record<string, string> = { en: 'English', pa: 'ਪੰਜਾਬੀ', hi: 'हिंदी' };
   const wa = '917986029544';
@@ -74,14 +77,56 @@
 
   <!-- Social Open Graph Metadata -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="SRI Speech & Hearing Clinic" />
+  <meta property="og:site_name" content="SRI Speech &amp; Hearing Aid Centre" />
   <meta property="og:url" content="https://www.srihearing.in{getLangUrl($page.url.pathname, lang)}" />
-  <meta property="og:image" content="https://www.srihearing.in/logo.png" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:image" content="https://www.srihearing.in/logo.png" />
+  <meta property="og:title" content="SRI Speech &amp; Hearing Aid Centre | Ludhiana, Punjab" />
+  <meta property="og:description" content="Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy for children and adults in Ludhiana, Punjab. Near ESI Hospital." />
+  <meta property="og:image" content="https://www.srihearing.in/images/hero_clinic.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_IN" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SRI Speech &amp; Hearing Aid Centre | Ludhiana" />
+  <meta name="twitter:description" content="Expert audiological evaluations, rechargeable hearing aids, and speech therapy in Ludhiana, Punjab. Book a free consultation today." />
+  <meta name="twitter:image" content="https://www.srihearing.in/images/hero_clinic.png" />
+  {@html `<script type="application/ld+json">
+    ${JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://www.srihearing.in/#website",
+          "url": "https://www.srihearing.in/",
+          "name": "SRI Speech & Hearing Aid Centre",
+          "alternateName": ["SRI Hearing Clinic Ludhiana", "SRI Speech & Hearing"],
+          "description": "Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy in Ludhiana, Punjab.",
+          "publisher": {
+            "@type": "MedicalOrganization",
+            "name": "SRI Speech & Hearing Aid Centre",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://www.srihearing.in/logo.png"
+            }
+          }
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "@id": "https://www.srihearing.in/#navigation",
+          "name": t[lang].nav,
+          "url": t[lang].links.map(l => {
+            const path = l.startsWith('/#') ? '/' + l.substring(1) : l;
+            return `https://www.srihearing.in${getLangUrl(path, lang)}`;
+          })
+        }
+      ]
+    })}
+  </script>`}
 </svelte:head>
 
 <!-- Navbar -->
+{#if !isStandalone}
 <nav class="nav" class:scrolled>
   <div class="wrap nav-inner">
     <a href={localizeLink('/', lang)} class="logo" aria-label="SRI Home">
@@ -122,6 +167,7 @@
     </div>
   </div>
 </nav>
+{/if}
 
 <!-- Mobile -->
 {#if mobileOpen}
@@ -130,7 +176,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
   {#each t[lang].nav as label, i}
-    <a href={localizeLink(t[lang].links[i], lang)} onclick={() => mobileOpen = false}>{label}</a>
+    <a href={t[lang].links[i].startsWith('/#') ? localizeLink(t[lang].links[i], lang) : localizeLink(t[lang].links[i], lang)} onclick={() => mobileOpen = false}>{label}</a>
   {/each}
   <div style="display:flex; gap:0.5rem; margin-top:1rem;">
     {#each (['en','pa','hi'] as const) as l}
@@ -148,6 +194,7 @@
 
 {@render children()}
 
+{#if !isStandalone}
 <!-- Footer -->
 <footer class="footer">
   <div class="wrap">
@@ -226,4 +273,5 @@
     </div>
   </div>
 </div>
+{/if}
 {/if}

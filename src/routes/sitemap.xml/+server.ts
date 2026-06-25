@@ -7,7 +7,7 @@ export const GET = () => {
   const langs = ['en', 'pa', 'hi'] as const;
   
   // Define static paths (base is '/' for en, or path)
-  const staticPaths = ['', '/services', '/blog'];
+  const staticPaths = ['', '/services', '/blog', '/hearing-test'];
   
   // Collect all paths
   const urls: { loc: string; alternates: { lang: string; href: string }[] }[] = [];

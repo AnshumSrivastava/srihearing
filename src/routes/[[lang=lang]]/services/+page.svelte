@@ -214,6 +214,24 @@
       }))
     })}
   </script>`}
+  {@html `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": `https://www.srihearing.in${getLangUrl('/', lang)}`
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": t[lang].label,
+        "item": `https://www.srihearing.in${getLangUrl('/services', lang)}`
+      }
+    ]
+  })}<\/script>`}
 </svelte:head>
 
 <!-- Hero -->

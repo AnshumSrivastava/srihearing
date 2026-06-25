@@ -2,9 +2,66 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" type="image/png" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" type="image/svg+xml" href="%sveltekit.assets%/favicon.svg" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/logo.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#7B2D8E" />
+
+		<!-- AIO + Search crawler directives -->
+		<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+
+		<!-- Local SEO geo tags -->
+		<meta name="geo.region" content="IN-PB" />
+		<meta name="geo.placename" content="Ludhiana, Punjab, India" />
+		<meta name="geo.position" content="30.9005;75.8408" />
+		<meta name="ICBM" content="30.9005, 75.8408" />
+
+		<!-- Publisher / Author -->
+		<meta name="author" content="SRI Speech &amp; Hearing Aid Centre" />
+		<meta name="publisher" content="SRI Speech &amp; Hearing Aid Centre" />
+
+		<!-- Global MedicalBusiness JSON-LD (AIO + rich results) -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "MedicalBusiness",
+			"name": "SRI Speech & Hearing Aid Centre",
+			"alternateName": "SRI Hearing Clinic Ludhiana",
+			"url": "https://www.srihearing.in",
+			"logo": "https://www.srihearing.in/logo.png",
+			"image": "https://www.srihearing.in/images/hero_clinic.png",
+			"description": "Expert audiological evaluations, advanced rechargeable hearing aids, and compassionate speech therapy for children and adults in Ludhiana, Punjab.",
+			"telephone": "+91-79860-29544",
+			"priceRange": "₹₹",
+			"currenciesAccepted": "INR",
+			"paymentAccepted": "Cash, UPI, Card",
+			"openingHours": "Mo-Sa 10:00-19:00",
+			"medicalSpecialty": "Audiology",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "Near ESI Hospital, Model Gram",
+				"addressLocality": "Ludhiana",
+				"addressRegion": "Punjab",
+				"postalCode": "141001",
+				"addressCountry": "IN"
+			},
+			"geo": {
+				"@type": "GeoCoordinates",
+				"latitude": 30.9005,
+				"longitude": 75.8408
+			},
+			"hasMap": "https://maps.google.com/?q=SRI+Speech+Hearing+Ludhiana",
+			"sameAs": [
+				"https://www.srihearing.in"
+			],
+			"areaServed": {
+				"@type": "City",
+				"name": "Ludhiana"
+			}
+		}
+		</script>
+
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 		<link
